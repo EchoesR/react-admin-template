@@ -10,7 +10,7 @@ const { SubMenu } = Menu
 const createSubMenuComponents = (route, pathname, history) => {
   const children = route.children.filter(route => !route.hidden)
   return (
-    <SubMenu key={route.path} title={<span><Icon type={route.icon} /><span>{route.name}</span></span>}>
+    <SubMenu key={route.path} title={<span><Icon type={route.icon} /><span>{route.title}</span></span>}>
       {children.map(item => {
         // let names = [route.name],
         //     paths = [route.path]
@@ -19,7 +19,7 @@ const createSubMenuComponents = (route, pathname, history) => {
             <Link to={item.path} onClick={e => {
               if (pathname !== item.path) history.push(item.path)
               e.preventDefault()
-            }}>{item.name}</Link>
+            }}>{item.title}</Link>
           </Menu.Item>) : createSubMenuComponents(item, pathname, history)
       })}
     </SubMenu>
@@ -66,7 +66,7 @@ class SideBar extends React.Component {
                         e.preventDefault()
                       }}>
                         <Icon type={route.icon} />
-                        <span>{route.name}</span>
+                        <span>{route.title}</span>
                       </Link>
                     </Menu.Item>
                   )

@@ -4,7 +4,7 @@ import BreadCrumbs from './BreadCrumbs'
 // import TabViews from './TabViews'
 import Hamburger from './Hamburger'
 import Account from './Account'
-// import Screenfull from '_c/Screenfull'
+import Screenfull from '_c/Screenfull'
 import './index.less'
 import connect from '@/utils/connect'
 @connect
@@ -19,8 +19,9 @@ class Layout extends React.Component {
             <div className="layout-header-bar">
               <Hamburger/>
               <BreadCrumbs />
-              {/* <Screenfull className="screenfull" /> */}
+              
               <Account />
+              <Screenfull />
             </div>
             {/* <div className="layout-header-tabs"><TabViews /></div> */}
           </header>

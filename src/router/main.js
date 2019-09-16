@@ -32,17 +32,17 @@ const isExistPath = (routes, pathname) => routes.some(route => {
 }) 
 
 /*401判断*/
-const isAuth = (role, user) => {
-  if (!role || (user && user.roles.indexOf('admin') >= 0)) return true
+const isAuth = (roles, user) => {
+  if (!roles || (user && user.roles.indexOf('admin') >= 0)) return true
   if (!user) return false
-  return role.some( r => user.roles.indexOf(r) >= 0)
+  return roles.some( r => user.roles.indexOf(r) >= 0)
 }
 
 
 // 每个路由的权限判断
 const hasPermission = (roles, route) => {
-  if (route.role) {
-    return roles.some(role => route.role.indexOf(role) >= 0)
+  if (route.roles) {
+    return roles.some(role => route.roles.indexOf(role) >= 0)
   } else {
     return true
   }
@@ -96,7 +96,7 @@ class MainComponents extends React.Component {
     //数据初始化
     dataInit (props) {
       console.log(props)
-      let { addTabView, addBreadCrumbs, setOpenKeys } = props
+      let { addBreadCrumbs, setOpenKeys } = props
       let pathname = props.location.pathname
       let router = filterRoutes(pathname)
       // 添加tab
@@ -151,7 +151,7 @@ class MainComponents extends React.Component {
     }
     // 401
     if (user && currRoute) {
-      if (!isAuth(currRoute.role, user)) return <Redirect to='/401'/>
+      if (!isAuth(currRoute.roles, user)) return <Redirect to='/401'/>
     }
     
     // 重定向子路径
@@ -159,7 +159,7 @@ class MainComponents extends React.Component {
     if (route) return <Redirect to={route.redirect}/>
 
     // 网页title
-    document.title = currRoute.name
+    document.title = currRoute.title
 
     return (
       <Switch>

@@ -11,8 +11,8 @@ class BreadCrumbs extends React.Component {
     return (
       <Breadcrumb className="breadCrumbs">
         {breadCrumbs.map((route, index) => {
-          return index === breadCrumbs.length - 1 ? <Item key={route.path}>{route.name}</Item> :
-            (<Item key={route.path}><Link className="breadCrumb-link" to={route.path}>{route.name}</Link></Item>)
+          return index === breadCrumbs.length - 1 ? <Item key={route.path}>{route.title}</Item> :
+            (<Item key={route.path}><Link className="breadCrumb-link" to={route.path}>{route.title}</Link></Item>)
         })}
       </Breadcrumb>
     )
