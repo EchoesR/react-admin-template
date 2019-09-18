@@ -14,7 +14,7 @@ class Layout extends React.Component {
     return (
       <>
         <SideBar />
-        <div id="container" className={state.collapsed ? 'collapsed' : ''}>
+        <div className={state.collapsed ? 'collapsed main-wrapper' : 'main-wrapper'}>
           <header className="layout-header">
             <div className="layout-header-bar">
               <Hamburger/>

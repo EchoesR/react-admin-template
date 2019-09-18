@@ -38,7 +38,7 @@ class SideBar extends React.Component {
     let { openKeys, breadCrumbs, routes } = this.props.state
     let { location: { pathname }, history } = this.props
     return (
-      <div id="sidebar-wrapper">
+      <div className="sidebar-wrapper">
         <Layout>
           <Sider
             trigger

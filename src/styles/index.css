@@ -1,3 +1,11 @@
 @import './common.css';
 @import './function.css';
 @import './pc-reset.css';
+
+
+div.card-panel {
+  margin-bottom: 15px;
+}
+/* ul.pagination {
+  padding: 15px 0;
+} */

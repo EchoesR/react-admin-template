@@ -2,6 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import './styles/index.css'
+import { ConfigProvider } from 'antd'
+import zhCN from 'antd/es/locale/zh_CN'
 
-ReactDOM.render( <App/>, document.getElementById('root'))
+ReactDOM.render( 
+  <ConfigProvider locale={zhCN}>
+    <App/>
+  </ConfigProvider>, document.getElementById('root'))
 
