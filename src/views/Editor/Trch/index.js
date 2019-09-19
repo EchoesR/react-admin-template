@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Button } from 'antd'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import './index.less'
@@ -33,11 +34,15 @@ export default class Trch extends Component {
       text: ''
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
   handleChange(value) {
     this.setState({
       text: value
     })
+  }
+  handleClick() {
+    console.log(this.state.text)
   }
   render() {
     return (
@@ -48,6 +53,7 @@ export default class Trch extends Component {
           className="editor-trch"
           modules={{ toolbar: toolbarOptions }}
           />
+          <Button onClick={this.handleClick}>提交</Button>
       </div>
     )
   }

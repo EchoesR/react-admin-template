@@ -37,7 +37,8 @@ export const getUserInfo = () => {
           "name": "蔡娟",
           "roles": [
             "admin",
-            "editor"
+            "editor",
+            'user'
           ]
         }
       })

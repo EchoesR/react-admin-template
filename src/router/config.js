@@ -38,6 +38,27 @@ export const asyncRouterMap = [
         title: '用户列表'
       }
     ]
+  },
+  {
+    path: '/premit',
+    login: true,
+    layout: true,
+    icon: 'user',
+    title: '权限管理',
+    roles: [
+      'admin'
+    ],
+    redirect: '/premit/index',
+    children:[
+      {
+        path: '/premit/index',
+        component: _import_views('Premit'),
+        roles: [
+          'admin'
+        ],
+        title: '权限管理'
+      }
+    ]
   }
 ]
 
