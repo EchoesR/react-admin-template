@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Card, Input, Button, Form, Select, Table, Divider } from 'antd'
+import { Card, Input, Button, Form, Select, Table, Divider, message } from 'antd'
 import IForm from '_c/IForm'
 import IPagination from '_c/IPagination'
-import { getUserList as getUserListApi } from '@/api/user'
+import EditUser from '../EditUser'
+import AddUser from '../AddUser'
+import { getUserList as getUserListApi, deleteUser as deleteUserApi } from '@/api/user'
 
 const { Option } = Select
 const { Item: FormItem } = Form
@@ -39,32 +41,7 @@ const filterItems = [
   }
 ]
 
-const columns = [
-  {
-    title: '姓名',
-    dataIndex: 'name',
-  },
-  {
-    title: '年龄',
-    dataIndex: 'age',
-  },
-  {
-    title: '地址',
-    dataIndex: 'address',
-  },
-  {
-    title: '操作',
-    dataIndex: 'action',
-    render: () => {
-      return <span>
-        <Button type="link">查看</Button>
-        <Button type="link">修改</Button>
-        <Divider type="vertical" />
-        <Button type="link">删除</Button>
-      </span>
-    }
-  }
-]
+
 const rowSelection = {
   onChange: (selectedRowKeys, selectedRows) => {
     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -85,8 +62,40 @@ export default class List extends Component {
     this.handleSearch = this.handleSearch.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
   }
-  
+  columns = [
+    {
+      title: '姓名',
+      dataIndex: 'name',
+    },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+    },
+    {
+      title: '地址',
+      dataIndex: 'address',
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      render: (value, row, index) => {
+        let { id } = row
+        return <span>
+          <Button type="link">查看</Button>
+          <EditUser editId={id} onEditSuccess={() => this.getUsers()} />
+          <Divider type="vertical" />
+          <Button type="link" onClick={() => this.handleDetete(id)}>删除</Button>
+        </span>
+      }
+    }
+  ]
 
+  handleDetete(id) {
+    deleteUserApi(id).then((result) => {
+      message.success('删除成功!')
+      console.log(result)
+    }).catch((err) => { console.log(err) });
+  }
   handleSearch() {
     console.log(this.filterForm.props.form.getFieldsValue())
     this.getUsers()
@@ -128,10 +137,14 @@ export default class List extends Component {
               <FormItem>
                 <Button type="primary" onClick={this.handleSearch}>查询</Button>
               </FormItem>
+              <FormItem>
+                <AddUser onSuccess={() => this.getUsers()}  />
+              </FormItem>
             </IForm>
+            
           </Card>
           <Card className="card-panel">
-            <Table columns={columns} dataSource={userList} rowSelection={rowSelection} pagination={false}></Table>
+            <Table columns={this.columns} dataSource={userList} rowSelection={rowSelection} pagination={false}></Table>
             <IPagination
               onPageChange={this.handlePageChange}
               currentPage={currentPage}
@@ -142,4 +155,5 @@ export default class List extends Component {
       </div>
     )
   }
+
 }
