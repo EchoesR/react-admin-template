@@ -40,6 +40,34 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/notices',
+    login: true,
+    layout: true,
+    icon: 'user',
+    title: '通知管理',
+    roles: [
+      'admin', 
+      'user'
+    ],
+    redirect: '/notices/list',
+    children:[
+      {
+        path: '/notices/list',
+        keepAlive: true,
+        cacheOptions: {
+          unmount: true
+        },
+        unmount: true,
+        component: _import_views('Notices'),
+        roles: [
+          'admin', 
+          'user'
+        ],
+        title: '通知列表'
+      }
+    ]
+  },
+  {
     path: '/premit',
     login: true,
     layout: true,

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Layout from '_v/Layout'
@@ -64,9 +65,11 @@ const filterAsyncRouter = (routes, roles) => {
 /*是否需要重定向*/
 const isRedirectPath = (routes, pathname) => routes.find(route => route.path === pathname && route.redirect && route.redirect !== route.path)
 
-
 // 路由渲染
-const RouteComponent = route => <Route key={route.path} exact={route.exact || false} path={route.path} component={route.component} /> 
+const RouteComponent = route => { 
+  const RouteMode = route.keepAlive ? CacheRoute : Route
+  return ( <RouteMode key={route.path} exact={route.exact || false} {...route.cacheOptions} path={route.path} component={route.component} /> )
+}
 // 路由表渲染
 const renderRouteComponent = routes => routes.map((route, index) => {
   return route.children ? route.children.map(route => RouteComponent(route)) : RouteComponent(route)
@@ -75,9 +78,9 @@ const renderRouteComponent = routes => routes.map((route, index) => {
 // 带有layout的路由
 const ComponentByLayout = ({history}) => (
   <Layout history={history}>
-    <Switch>
+    <CacheSwitch>
       {renderRouteComponent(allRoutes.filter(route => route.layout))}
-    </Switch>
+    </CacheSwitch>
   </Layout>   
 )
 
@@ -95,7 +98,7 @@ class MainComponents extends React.Component {
     }
     //数据初始化
     dataInit (props) {
-      console.log(props)
+      // console.log(props)
       let { addBreadCrumbs, setOpenKeys } = props
       let pathname = props.location.pathname
       let router = filterRoutes(pathname)

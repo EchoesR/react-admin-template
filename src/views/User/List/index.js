@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Input, Button, Form, Select, Table, Divider, message } from 'antd'
+import { Card, Input, Button, Select, Table, Divider, message } from 'antd'
 import IForm from '_c/IForm'
 import IPagination from '_c/IPagination'
 import EditUser from '../EditUser'
@@ -7,39 +7,9 @@ import AddUser from '../AddUser'
 import { getUserList as getUserListApi, deleteUser as deleteUserApi } from '@/api/user'
 
 const { Option } = Select
-const { Item: FormItem } = Form
 const filterForm = {
   layout: "inline" 
 }
-const filterItems = [
-  {
-    item: {
-      key: 'name',
-      label: '姓名',
-      options: {
-        initialValue: ''
-      },
-      component: (
-        <Input placeholder="请输入姓名" />
-      )
-    }
-  },
-  {
-    item: {
-      key: 'status',
-      label: '状态',
-      options: {
-        initialValue: '1'
-      },
-      component: (
-        <Select style={{width: '100px'}}>
-          <Option value="1">正常</Option>
-          <Option value="0">禁用</Option>
-        </Select>
-      )
-    }
-  }
-]
 
 
 const rowSelection = {
@@ -59,6 +29,55 @@ export default class List extends Component {
       currentPage: 1,
       pageSize: 10
     }
+    this.filterItems = [
+      {
+        item: {
+          key: 'name',
+          label: '姓名',
+          required: false,
+          options: {
+            initialValue: ''
+          },
+          component: (
+            <Input placeholder="请输入姓名" />
+          )
+        }
+      },
+      {
+        item: {
+          key: 'status',
+          label: '状态',
+          required: false,
+          options: {
+            initialValue: '1'
+          },
+          component: (
+            <Select style={{width: '100px'}}>
+              <Option value="1">正常</Option>
+              <Option value="0">禁用</Option>
+            </Select>
+          )
+        }
+      },
+      {
+        item: {
+          key: 'search',
+          required: false,
+          component: (
+            <Button type="primary" htmlType="submit">查询</Button>
+          )
+        }
+      },
+      {
+        item: {
+          key: 'action',
+          required: false,
+          component: (
+            <AddUser onSuccess={() => this.getUsers()}  />
+          )
+        }
+      }
+    ]
     this.handleSearch = this.handleSearch.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
   }
@@ -133,13 +152,7 @@ export default class List extends Component {
     return (
       <div>
          <Card className="card-panel">
-            <IForm formOptions={ filterForm } formItems={filterItems} wrappedComponentRef={(filterForm) => this.filterForm = filterForm} >
-              <FormItem>
-                <Button type="primary" onClick={this.handleSearch}>查询</Button>
-              </FormItem>
-              <FormItem>
-                <AddUser onSuccess={() => this.getUsers()}  />
-              </FormItem>
+            <IForm formOptions={ filterForm } formItems={this.filterItems} onSubmit={this.handleSearch} wrappedComponentRef={(filterForm) => this.filterForm = filterForm} >
             </IForm>
             
           </Card>
